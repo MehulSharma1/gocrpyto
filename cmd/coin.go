@@ -16,9 +16,13 @@ limitations under the License.
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 
+	"github.com/MehulSharma1/gocrpyto/internal"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"github.com/spf13/cobra"
@@ -27,6 +31,7 @@ import (
 // coinCmd represents the coin command
 var coinCmd = &cobra.Command{
 	Use:   "coin",
+	Args:  cobra.MaximumNArgs(1),
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -36,6 +41,24 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("coin called")
+		id := args[0]
+		url := fmt.Sprintf("https://api.coingecko.com/api/v3/coins/%s?localization=false", id)
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to create request for %s", url))
+		}
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to make request for %s", url))
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to read response body from %s", resp.Body))
+		}
+		var idResponse internal.CoinResponse
+		json.Unmarshal(body, &idResponse)
+		fmt.Println(idResponse)
 		if err := ui.Init(); err != nil {
 			log.Fatalf("failed to initialize termui: %v", err)
 		}
@@ -60,5 +83,5 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// coinCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	coinCmd.Flags().String("id", "0", "Id of the coin")
 }
