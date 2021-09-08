@@ -25,13 +25,14 @@ import (
 	"github.com/MehulSharma1/gocrpyto/internal"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
+	"github.com/olekukonko/ts"
 	"github.com/spf13/cobra"
 )
 
 // coinCmd represents the coin command
 var coinCmd = &cobra.Command{
 	Use:   "coin",
-	Args:  cobra.MaximumNArgs(1),
+	Args:  cobra.MinimumNArgs(1),
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -42,6 +43,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("coin called")
 		id := args[0]
+		size, _ := ts.GetSize()
 		url := fmt.Sprintf("https://api.coingecko.com/api/v3/coins/%s?localization=false", id)
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
@@ -64,11 +66,59 @@ to quickly create a Cobra application.`,
 		}
 		defer ui.Close()
 
-		header := widgets.NewParagraph()
-		header.Text = "Press q to quit, Press h or l to switch tabs"
-		header.SetRect(0, 0, 50, 1)
-		header.Border = false
-		header.TextStyle.Bg = ui.ColorBlue
+		// p0 := widgets.NewParagraph()
+		// p0.Text = "Borderless Text"
+		// p0.SetRect(0, 0, 20, 5)
+		// p0.Border = false
+		p1 := widgets.NewParagraph()
+		p1.Text = fmt.Sprintf("Details of %s", idResponse.Name)
+		p1.SetRect(0, 0, size.Col(), 5)
+		p1.Border = false
+
+		p2 := widgets.NewParagraph()
+		p2.Title = "Current Price"
+		p2.Text = fmt.Sprintf("USD %f",
+			idResponse.MarketData.CurrentPrice.Usd)
+		p2.SetRect(0, 5, size.Col()/3, 10)
+
+		p3 := widgets.NewParagraph()
+		p3.Title = "24 Hour Low"
+		p3.Text = fmt.Sprintf("USD %f",
+			idResponse.MarketData.Low24H.Usd)
+		p3.SetRect(size.Col()/3+1, 5, size.Col()/3*2, 10)
+
+		p4 := widgets.NewParagraph()
+		p4.Title = "24 Hour Low"
+		p4.Text = fmt.Sprintf("USD %f",
+			idResponse.MarketData.High24H.Usd)
+		p4.SetRect(size.Col()/3*2+1, 5, size.Col()/3*3, 10)
+		// p2 := widgets.NewParagraph()
+		// p2.Title = "Multiline"
+		// p2.Text = "Simple colored text\nwith label. It [can be](fg:red) multilined with \\n or [break automatically](fg:red,fg:bold)"
+		// p2.SetRect(0, 5, 35, 10)
+		// p2.BorderStyle.Fg = ui.ColorYellow
+
+		// p3 := widgets.NewParagraph()
+		// p3.Title = "Auto Trim"
+		// p3.Text = "Long text with label and it is auto trimmed."
+		// p3.SetRect(0, 10, 40, 15)
+
+		// p4 := widgets.NewParagraph()
+		// p4.Title = "Text Box with Wrapping"
+		// p4.Text = "Press q to QUIT THE DEMO. [There](fg:blue,mod:bold) are other things [that](fg:red) are going to fit in here I think. What do you think? Now is the time for all good [men to](bg:blue) come to the aid of their country. [This is going to be one really really really long line](fg:green) that is going to go together and stuffs and things. Let's see how this thing renders out.\n    Here is a new paragraph and stuffs and things. There should be a tab indent at the beginning of the paragraph. Let's see if that worked as well."
+		// p4.SetRect(40, 0, 70, 20)
+		// p4.BorderStyle.Fg = ui.ColorBlue
+
+		ui.Render(p1, p2, p3, p4)
+
+		uiEvents := ui.PollEvents()
+		for {
+			e := <-uiEvents
+			switch e.ID {
+			case "q", "<C-c>":
+				return
+			}
+		}
 	},
 }
 
