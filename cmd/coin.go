@@ -22,9 +22,10 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/MehulSharma1/gocrpyto/components"
 	"github.com/MehulSharma1/gocrpyto/internal"
+
 	ui "github.com/gizak/termui/v3"
-	"github.com/gizak/termui/v3/widgets"
 	"github.com/olekukonko/ts"
 	"github.com/spf13/cobra"
 )
@@ -65,33 +66,13 @@ to quickly create a Cobra application.`,
 			log.Fatalf("failed to initialize termui: %v", err)
 		}
 		defer ui.Close()
-
-		// p0 := widgets.NewParagraph()
-		// p0.Text = "Borderless Text"
-		// p0.SetRect(0, 0, 20, 5)
-		// p0.Border = false
-		p1 := widgets.NewParagraph()
-		p1.Text = fmt.Sprintf("Details of %s", idResponse.Name)
-		p1.SetRect(0, 0, size.Col(), 5)
-		p1.Border = false
-
-		p2 := widgets.NewParagraph()
-		p2.Title = "Current Price"
-		p2.Text = fmt.Sprintf("USD %f",
-			idResponse.MarketData.CurrentPrice.Usd)
-		p2.SetRect(0, 5, size.Col()/3, 10)
-
-		p3 := widgets.NewParagraph()
-		p3.Title = "24 Hour Low"
-		p3.Text = fmt.Sprintf("USD %f",
-			idResponse.MarketData.Low24H.Usd)
-		p3.SetRect(size.Col()/3+1, 5, size.Col()/3*2, 10)
-
-		p4 := widgets.NewParagraph()
-		p4.Title = "24 Hour Low"
-		p4.Text = fmt.Sprintf("USD %f",
-			idResponse.MarketData.High24H.Usd)
-		p4.SetRect(size.Col()/3*2+1, 5, size.Col()/3*3, 10)
+		start, end := 0, 0
+		title := components.GetTitle(&start, &end, size, idResponse)
+		current_price := components.GetCurrentPrice(&start, &end, size, idResponse)
+		Low24H := components.Get24HLow(&start, &end, size, idResponse)
+		High24H := components.Get24HHigh(&start, &end, size, idResponse)
+		ath := components.GetATH(&start, &end, size, idResponse)
+		atl := components.GetATL(&start, &end, size, idResponse)
 		// p2 := widgets.NewParagraph()
 		// p2.Title = "Multiline"
 		// p2.Text = "Simple colored text\nwith label. It [can be](fg:red) multilined with \\n or [break automatically](fg:red,fg:bold)"
@@ -109,7 +90,7 @@ to quickly create a Cobra application.`,
 		// p4.SetRect(40, 0, 70, 20)
 		// p4.BorderStyle.Fg = ui.ColorBlue
 
-		ui.Render(p1, p2, p3, p4)
+		ui.Render(title, current_price, Low24H, High24H, ath, atl)
 
 		uiEvents := ui.PollEvents()
 		for {

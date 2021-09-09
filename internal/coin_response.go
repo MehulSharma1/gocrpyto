@@ -123,8 +123,9 @@ type CoinResponse struct {
 		Ath                   Currency    `json:"ath"`
 		AthChangePercentage   Currency    `json:"ath_change_percentage"`
 		AthDate               Currency    `json:"ath_date"`
+		AtlDate               Currency    `json:"atl_date"`
 		Atl                   Currency    `json:"atl"`
-		AtlChangePercentage   Currency    `json:"atl_date"`
+		AtlChangePercentage   Currency    `json:"atl_change_percentage"`
 		MarketCap             Currency    `json:"market_cap"`
 		MarketCapRank         int         `json:"market_cap_rank"`
 		FullyDilutedValuation struct {
