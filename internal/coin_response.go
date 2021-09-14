@@ -115,19 +115,19 @@ type CoinResponse struct {
 	LiquidityScore               float64 `json:"liquidity_score"`
 	PublicInterestScore          float64 `json:"public_interest_score"`
 	MarketData                   struct {
-		CurrentPrice          Currency    `json:"current_price"`
-		TotalValueLocked      interface{} `json:"total_value_locked"`
-		McapToTvlRatio        interface{} `json:"mcap_to_tvl_ratio"`
-		FdvToTvlRatio         interface{} `json:"fdv_to_tvl_ratio"`
-		Roi                   interface{} `json:"roi"`
-		Ath                   Currency    `json:"ath"`
-		AthChangePercentage   Currency    `json:"ath_change_percentage"`
-		AthDate               Currency    `json:"ath_date"`
-		AtlDate               Currency    `json:"atl_date"`
-		Atl                   Currency    `json:"atl"`
-		AtlChangePercentage   Currency    `json:"atl_change_percentage"`
-		MarketCap             Currency    `json:"market_cap"`
-		MarketCapRank         int         `json:"market_cap_rank"`
+		CurrentPrice          Currency               `json:"current_price"`
+		TotalValueLocked      interface{}            `json:"total_value_locked"`
+		McapToTvlRatio        interface{}            `json:"mcap_to_tvl_ratio"`
+		FdvToTvlRatio         interface{}            `json:"fdv_to_tvl_ratio"`
+		Roi                   interface{}            `json:"roi"`
+		Ath                   Currency               `json:"ath"`
+		AthChangePercentage   Currency               `json:"ath_change_percentage"`
+		AthDate               map[string]interface{} `json:"ath_date"`
+		AtlDate               map[string]interface{} `json:"atl_date"`
+		Atl                   Currency               `json:"atl"`
+		AtlChangePercentage   Currency               `json:"atl_change_percentage"`
+		MarketCap             Currency               `json:"market_cap"`
+		MarketCapRank         int                    `json:"market_cap_rank"`
 		FullyDilutedValuation struct {
 		} `json:"fully_diluted_valuation"`
 		TotalVolume                            Currency    `json:"total_volume"`

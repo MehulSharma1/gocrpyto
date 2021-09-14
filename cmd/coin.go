@@ -73,6 +73,9 @@ to quickly create a Cobra application.`,
 		High24H := components.Get24HHigh(&start, &end, size, idResponse)
 		ath := components.GetATH(&start, &end, size, idResponse)
 		atl := components.GetATL(&start, &end, size, idResponse)
+		volume := components.GetVolume(&start, &end, size, idResponse)
+		CirculatingSupply := components.GetCirculatingSupply(&start, &end, size, idResponse)
+		PriceChange := components.GetPriceChange(&start, &end, size, idResponse)
 		// p2 := widgets.NewParagraph()
 		// p2.Title = "Multiline"
 		// p2.Text = "Simple colored text\nwith label. It [can be](fg:red) multilined with \\n or [break automatically](fg:red,fg:bold)"
@@ -90,7 +93,7 @@ to quickly create a Cobra application.`,
 		// p4.SetRect(40, 0, 70, 20)
 		// p4.BorderStyle.Fg = ui.ColorBlue
 
-		ui.Render(title, current_price, Low24H, High24H, ath, atl)
+		ui.Render(title, current_price, Low24H, High24H, ath, atl, volume, CirculatingSupply, PriceChange)
 
 		uiEvents := ui.PollEvents()
 		for {
