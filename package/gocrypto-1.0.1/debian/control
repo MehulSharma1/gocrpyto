@@ -1,0 +1,15 @@
+Source: gocrypto
+Section: unknown
+Priority: optional
+Maintainer: Mehul Sharma <mehul.sharma213@gmail.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.4.1
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/gocrypto
+#Vcs-Git: https://salsa.debian.org/debian/gocrypto.git
+
+Package: gocrypto
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

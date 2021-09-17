@@ -1,0 +1,12 @@
+gocrypto (1.0.1) UNRELEASED; urgency=medium
+
+  * Added Binaries 
+  * Setup File system
+
+ -- Mehul Sharma <mehul.sharma213@gmail.com>  Fri, 17 Sep 2021 09:25:39 +0530
+
+gocrypto (1.0.0) unstable; urgency=medium
+
+  * Initial Release.
+
+ -- Mehul Sharma <mehul.sharma213@gmail.com>  Fri, 17 Sep 2021 09:12:26 +0530

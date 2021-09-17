@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Fri, 17 Sep 2021 09:12:26 +0530
+Source: gocrypto
+Binary: gocrypto
+Architecture: source amd64
+Version: 1.0.0
+Distribution: unstable
+Urgency: medium
+Maintainer: Mehul Sharma <mehul.sharma213@gmail.com>
+Changed-By: Mehul Sharma <mehul.sharma213@gmail.com>
+Description:
+ gocrypto   - <insert up to 60 chars description>
+Changes:
+ gocrypto (1.0.0) unstable; urgency=medium
+ .
+   * Initial Release.
+Checksums-Sha1:
+ 6afe6e356387a4ef595d2830caae37b918036eeb 572 gocrypto_1.0.0.dsc
+ 8f8c8aed27f0564867addd40a80a272564a908a0 7308 gocrypto_1.0.0.tar.xz
+ 41631232e3831d7638ed830f5a83c9b379bb40f3 5409 gocrypto_1.0.0_amd64.buildinfo
+ 5aee5ff4521d5a29ec35a7f4525bd22b5cf5debc 2192 gocrypto_1.0.0_amd64.deb
+Checksums-Sha256:
+ 270dffdbb4f2f94c7a5bf9a3f22aafee7b5ddfceeb8d84789aea6b2c5e8fb07c 572 gocrypto_1.0.0.dsc
+ 852156ca5954249b85e19dd71dcd18ec4f0d41c47d49368e208016946caf3d32 7308 gocrypto_1.0.0.tar.xz
+ 7f676271d0e452534f279093cd830e5911bf6b8c619ade61ce9c0a889c575b5d 5409 gocrypto_1.0.0_amd64.buildinfo
+ c39d0a4e432499974b8b3bd54120d90ac06d2f3a01bd1aaf668a0546e80b355d 2192 gocrypto_1.0.0_amd64.deb
+Files:
+ ad74b28cc6448786243f228cab06ec5d 572 unknown optional gocrypto_1.0.0.dsc
+ 7bacc3b27e12bb802983230fd786b730 7308 unknown optional gocrypto_1.0.0.tar.xz
+ aed8eed0e80fe76a90939a31795478f4 5409 unknown optional gocrypto_1.0.0_amd64.buildinfo
+ ef7d60a4f323eb265df5ad6bc0cba5a9 2192 unknown optional gocrypto_1.0.0_amd64.deb
