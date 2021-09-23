@@ -61,11 +61,27 @@ to quickly create a Cobra application.`,
 		}
 		var idResponse internal.CoinResponse
 		json.Unmarshal(body, &idResponse)
-		fmt.Println(idResponse)
 		if err := ui.Init(); err != nil {
 			log.Fatalf("failed to initialize termui: %v", err)
 		}
 		defer ui.Close()
+		url = fmt.Sprintf("https://api.coingecko.com/api/v3/coins/%s/market_chart?vs_currency=usd&days=1", id)
+		req, err = http.NewRequest("GET", url, nil)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to create request for %s", url))
+		}
+		resp, err = http.DefaultClient.Do(req)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to make request for %s", url))
+		}
+		defer resp.Body.Close()
+		body, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			panic(fmt.Sprintf("Failed to read response body from %s", resp.Body))
+		}
+		var history24H internal.HistoricalPrice
+		json.Unmarshal(body, &history24H)
+
 		start, end := 0, 0
 		title := components.GetTitle(&start, &end, size, idResponse)
 		current_price := components.GetCurrentPrice(&start, &end, size, idResponse)
@@ -76,24 +92,8 @@ to quickly create a Cobra application.`,
 		volume := components.GetVolume(&start, &end, size, idResponse)
 		CirculatingSupply := components.GetCirculatingSupply(&start, &end, size, idResponse)
 		PriceChange := components.GetPriceChange(&start, &end, size, idResponse)
-		// p2 := widgets.NewParagraph()
-		// p2.Title = "Multiline"
-		// p2.Text = "Simple colored text\nwith label. It [can be](fg:red) multilined with \\n or [break automatically](fg:red,fg:bold)"
-		// p2.SetRect(0, 5, 35, 10)
-		// p2.BorderStyle.Fg = ui.ColorYellow
-
-		// p3 := widgets.NewParagraph()
-		// p3.Title = "Auto Trim"
-		// p3.Text = "Long text with label and it is auto trimmed."
-		// p3.SetRect(0, 10, 40, 15)
-
-		// p4 := widgets.NewParagraph()
-		// p4.Title = "Text Box with Wrapping"
-		// p4.Text = "Press q to QUIT THE DEMO. [There](fg:blue,mod:bold) are other things [that](fg:red) are going to fit in here I think. What do you think? Now is the time for all good [men to](bg:blue) come to the aid of their country. [This is going to be one really really really long line](fg:green) that is going to go together and stuffs and things. Let's see how this thing renders out.\n    Here is a new paragraph and stuffs and things. There should be a tab indent at the beginning of the paragraph. Let's see if that worked as well."
-		// p4.SetRect(40, 0, 70, 20)
-		// p4.BorderStyle.Fg = ui.ColorBlue
-
-		ui.Render(title, current_price, Low24H, High24H, ath, atl, volume, CirculatingSupply, PriceChange)
+		Plot24H := components.Get24HPlot(&start, &end, size, history24H)
+		ui.Render(title, current_price, Low24H, High24H, ath, atl, volume, CirculatingSupply, PriceChange, Plot24H)
 
 		uiEvents := ui.PollEvents()
 		for {

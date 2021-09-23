@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MehulSharma1/gocrpyto/internal"
+	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"github.com/olekukonko/ts"
 )
@@ -94,4 +95,32 @@ func GetPriceChange(start, end *int, size ts.Size, idResponse internal.CoinRespo
 	p4.Text = fmt.Sprintf("%f", idResponse.MarketData.PriceChangePercentage24H)
 	p4.SetRect(size.Col()/3*2+1, *start, size.Col(), *end)
 	return p4
+}
+
+func Get24HPlot(start, end *int, size ts.Size, history24H internal.HistoricalPrice) *widgets.Plot {
+
+	plot24H := func() [][]float64 {
+		data := make([][]float64, 1)
+		// var x_axis []float64
+		var y_axis []float64
+		for _, val := range history24H.Prices {
+			// x_axis = append(x_axis, val[0])
+			y_axis = append(y_axis, val[0])
+		}
+		// data[0] = x_axis
+		fmt.Println(len(data[0]))
+
+		data[0] = y_axis
+		return data
+	}()
+	*start = *end
+	*end += 25
+	p0 := widgets.NewPlot()
+	p0.Title = "24H Prices"
+	p0.HorizontalScale = 1
+	p0.Data = plot24H
+	p0.SetRect(0, *start, size.Col(), *end)
+	p0.AxesColor = ui.ColorWhite
+	p0.LineColors[0] = ui.ColorGreen
+	return p0
 }
